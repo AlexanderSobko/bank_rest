@@ -1,8 +1,45 @@
-#
-# application.yml — главный конфигурационный файл Spring Boot.
+spring:
+  application:
+    name: bank-rest
 
-Что нужно сделать:
-  - Указать настройки подключения к базе данных.
-  - Указать порт приложения.
-  - Настроить параметры безопасности и JWT.
-  - Включить Swagger UI.
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/bankdb}
+    username: ${DB_USERNAME:bankuser}
+    password: ${DB_PASSWORD:bankpass}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/migration/db.changelog-master.yaml
+
+server:
+  port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: INFO
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:change-me-please-use-strong-secret}
+    issuer: ${JWT_ISSUER:bank-rest}
+    access-token-ttl-minutes: ${JWT_ACCESS_TTL_MINUTES:30}
+    refresh-token-ttl-days: ${JWT_REFRESH_TTL_DAYS:7}
+  crypto:
+    secret: ${CRYPTO_SECRET_BASE64:QWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXphYmNkZWY=} # base64 AES key (example! replace in prod)
