@@ -1,1 +1,11 @@
 databaseChangeLog:
+  - include:
+      file: db/migration/db.changelog-001-create-roles-table.yml
+  - include:
+      file: db/migration/db.changelog-002-create-users-table.yml
+  - include:
+      file: db/migration/db.changelog-003-create-user-roles-table.yml
+  - include:
+      file: db/migration/db.changelog-004-create-cards-table.yml
+  - include:
+      file: db/migration/db.changelog-005-create-transfers-table.yml
